@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ApiNetCore.Models;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ApiNetCore.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/v1")]
     [ApiController]
     public class PessoasController : ControllerBase
     {
@@ -22,6 +23,7 @@ namespace ApiNetCore.Controllers
         }
 
         // GET: api/Pessoas
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pessoa>>> GetPessoas()
         {
@@ -29,6 +31,7 @@ namespace ApiNetCore.Controllers
         }
 
         // GET: api/Pessoas/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Pessoa>> GetPessoa(Guid id)
         {
@@ -42,9 +45,7 @@ namespace ApiNetCore.Controllers
             return pessoa;
         }
 
-        // PUT: api/Pessoas/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPessoa(Guid id, Pessoa pessoa)
         {
@@ -74,9 +75,7 @@ namespace ApiNetCore.Controllers
             return NoContent();
         }
 
-        // POST: api/Pessoas
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Pessoa>> PostPessoa(Pessoa pessoa)
         {
@@ -87,6 +86,7 @@ namespace ApiNetCore.Controllers
         }
 
         // DELETE: api/Pessoas/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Pessoa>> DeletePessoa(Guid id)
         {
@@ -107,6 +107,7 @@ namespace ApiNetCore.Controllers
             return _context.Pessoas.Any(e => e.ID == id);
         }
 
+        [Authorize]
         [HttpPatch("{id}")]
         public async Task<ActionResult> Patch(Guid id, [FromBody] JsonPatchDocument<Pessoa> patchPessoa)
         {
